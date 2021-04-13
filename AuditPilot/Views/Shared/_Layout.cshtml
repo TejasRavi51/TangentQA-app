@@ -39,7 +39,12 @@
 <body style="background-color:antiquewhite;min-height:100%;height:auto !important;height:100%;">
     @{
         string pageUrl = Request.Url.PathAndQuery.ToString();
+       
     }
+    <script>
+        rootUrl = '@Url.Content("~")'
+    </script>
+
     <div class="navbar navbar-inverse navbar-fixed-top" style="background-color:#dedbc3;color:white">
         <div class="container">
             <div class="navbar-header">
@@ -142,7 +147,7 @@
     <!-- DataTables JavaScript -->
     <script src="/Scripts/dataTables/jquery.dataTables.min.js"></script>
     <script src="/Scripts/dataTables/dataTables.bootstrap.min.js"></script>
-    <script src="~/Scripts/ScoreCard/scorecard.js?ver<%=DateTime.Now.Ticks.ToString()%>" type="text/javascript""></script>
+    <script src="~/Scripts/ScoreCard/scorecard.js?ver<%=DateTime.Now.Ticks.ToString()%>" type="text/javascript" "></script>
     <!-- Custom Theme JavaScript -->
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     @*<script>

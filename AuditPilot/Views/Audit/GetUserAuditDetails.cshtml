@@ -54,7 +54,7 @@
     $(document).ready(function () {
         $.ajax({
             type: "GET",
-            url: "/Audit/GetUserScoreCardList",
+            url: rootUrl + "Audit/GetUserScoreCardList",
             //data: { companyId: id },
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -85,6 +85,6 @@
     $("#ddlScoreCard").change(function () {
         // debugger
         var scoreCardIdVal = $('option:selected', this).val();
-        $("#userAuditResponsesId").load("/Audit/UserAuditResponsesPartial", { scoreCardId: scoreCardIdVal });
+        $("#userAuditResponsesId").load(rootUrl +"Audit/UserAuditResponsesPartial", { scoreCardId: scoreCardIdVal });
     });
 </script>

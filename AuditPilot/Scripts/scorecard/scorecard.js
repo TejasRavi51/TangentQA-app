@@ -61,7 +61,7 @@ function funCreateCard(scoreCardId) {
         $("#SpanCardNameError").text("");
         $.ajax({
             type: "POST",
-            url: "/Audit/ScoreSave",
+            url: "../Audit/ScoreSave",
             //contentType: 'application/json; charset=utf-8',
             data: { 'ScoreCardNameTxt': scoreCardName, 'scoreCardId': scoreCardId},
             contentType: 'application/x-www-form-urlencoded',
@@ -101,7 +101,7 @@ var iTableCounter = 1;
 $(function () {
     ////
     
-    //GetParamsDropDown();
+    GetParamsDropDown();
     $("#btnScoreCardSave").click(function () {
         debugger;
        // $("#divsc").load("/Audit/GetScoreCards");
@@ -114,7 +114,7 @@ $(function () {
             $("#SpanCardNameError").text("");
             $.ajax({
                 type: "POST",
-                url: "../Audit/ScoreSave",
+                url: rootUrl + "Audit/ScoreSave",
                 //contentType: 'application/json; charset=utf-8',
                 data: { 'ScoreCardNameTxt': scoreCardName },
                 contentType: 'application/x-www-form-urlencoded',
@@ -137,7 +137,7 @@ $(function () {
                         debugger;
                         $.ajax({
                             type: "GET",
-                            url: "../Audit/GetSections",
+                            url: rootUrl + "Audit/GetSections",
                             data: { 'scorecardName': scoreCardName },
                             contentType: 'application/x-www-form-urlencoded',
                             datatype: "html",
@@ -262,7 +262,7 @@ $(function () {
 
             $.ajax({
                 type: "POST",
-                url: "../Audit/SectionSave",
+                url: rootUrl + "Audit/SectionSave",
                 data: { 'sectionName': SectionName, 'weightage': Weightage, 'scorecardName': scoreCardName },
                 contentType: 'application/x-www-form-urlencoded',
                 datatype: "html",
@@ -426,7 +426,7 @@ $(function () {
             });
             $.ajax({
                 //type: "POST",
-                url: "../Audit/GetParamsGridData",
+                url: rootUrl + "Audit/GetParamsGridData",
                 //url: "/Audit/GetParamsGridData",
                 type: "GET",
                 datatype: "json",
@@ -574,7 +574,7 @@ $(function () {
         var scoreCardName = $("#ScoreCardNameTxt").val();
         $.ajax({
             type: "POST",
-            url: "/Audit/GetSectionDetails",
+            url: rootUrl + "Audit/GetSectionDetails",
             //contentType: 'application/json; charset=utf-8',
             data: { 'scoreCardName': scoreCardName },
             contentType: 'application/x-www-form-urlencoded',
@@ -648,7 +648,7 @@ $(function () {
 
         $.ajax({
             type: "GET",
-            url: "../Audit/GetParamsDetails",
+            url: rootUrl + "Audit/GetParamsDetails",
             // data: '{name: "abc" }',
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -754,7 +754,7 @@ $(function () {
                 $("#SpanlistIdError").text("");
                 $.ajax({
                     type: "POST",
-                    url: "/Audit/AddParams",
+                    url: rootUrl + "Audit/AddParams",
                     //contentType: 'application/json; charset=utf-8',
                     data: { 'paramname': ParamTitle, 'paramweght': Weightage, 'isMandatory': radioValue, 'isCurrentReq': radioValue1, 'sectionid': SectionId, 'ScoreCardId': ScoreCardId, 'paramid': ParamId, 'paramlist': paramlist },
                     contentType: 'application/x-www-form-urlencoded',
@@ -804,7 +804,7 @@ $(function () {
             //var paramId2 = ParamIdn != 'undefiened' ? ParamId : Param;
             $.ajax({
                 type: "POST",
-                url: "/Audit/AddParams",
+                url: rootUrl + "Audit/AddParams",
                 //contentType: 'application/json; charset=utf-8',
                 data: { 'paramname': ParamTitle, 'paramweght': Weightage, 'isMandatory': radioValue, 'isCurrentReq': radioValue1, 'sectionid': SectionId, 'ScoreCardId': ScoreCardId, 'paramid': ParamId, 'paramlist': paramlist },
                 contentType: 'application/x-www-form-urlencoded',
@@ -833,7 +833,7 @@ $(function () {
         var sectionId = $("#hdnsectionId").val();
         $.ajax({
             type: "POST",
-            url: "/Audit/EditSection",
+            url: rootUrl + "Audit/EditSection",
             //contentType: 'application/json; charset=utf-8',
             data: { 'sectionName': SectionName, 'sectionWeight': Weightage, 'sectionId': sectionId },
             contentType: 'application/x-www-form-urlencoded',
@@ -858,7 +858,7 @@ $(function () {
         ////
         $.ajax({
             type: "POST",
-            url: "/Audit/DeleteSection",
+            url: rootUrl + "Audit/DeleteSection",
             //contentType: 'application/json; charset=utf-8',
             data: { 'scSectionID': SectionId },
             contentType: 'application/x-www-form-urlencoded',
@@ -894,7 +894,7 @@ $(function () {
         ////
         $.ajax({
             type: "POST",
-            url: "/Audit/DeleteParams",
+            url: rootUrl + "Audit/DeleteParams",
             //contentType: 'application/json; charset=utf-8',
             data: { 'questionId': questionId },
             contentType: 'application/x-www-form-urlencoded',
@@ -917,7 +917,7 @@ $(function () {
         ////
         $.ajax({
             type: "POST",
-            url: "/Audit/UpdateQuestionParams",
+            url: rootUrl + "Audit/UpdateQuestionParams",
             //contentType: 'application/json; charset=utf-8',
             data: { 'questionId': questionId, 'title': title},
             contentType: 'application/x-www-form-urlencoded',
@@ -980,7 +980,7 @@ $(function () {
         
         $.ajax({
             type: "GET",
-            url: "/Audit/GetParamType",
+            url: rootUrl + "Audit/GetParamType",
             //contentType: 'application/json; charset=utf-8',
             data: { 'paramId': ParamId },
             contentType: 'application/x-www-form-urlencoded',
@@ -1026,13 +1026,13 @@ $("#btnScSaveDA").click(function () {
    
     var ScoreCardNM = $("#ScoreCardNameTxt").val();
     var status = "2";
-    var url = "/Audit/UpdateScoreCard";
+    var url = rootUrl + "Audit/UpdateScoreCard";
     $.post(url, { ScoreCardNM: ScoreCardNM, status: status }, function (data) {
         $("#msg").html(data);
     })
         .done(function () {
             toastr.success('Scorecard DeActivated.', 'Success Alert', { timeOut: 2000 });
-            window.location.href = '/Audit/GetScorecards'
+            window.location.href = rootUrl + 'Audit/GetScorecards'
         })
         .fail(function () {
             toastr.warning('Scorecard DeActivation failed, some Audits still in progress, please check...', 'Failure Alert', { timeOut: 2000 });
@@ -1048,13 +1048,13 @@ $("#btnScSaveDraft").click(function () {
   
     var ScoreCardNM = $("#ScoreCardNameTxt").val();
     var status = "0";
-    var url = "/Audit/UpdateScoreCard";
+    var url = rootUrl + "Audit/UpdateScoreCard";
     $.post(url, { ScoreCardNM: ScoreCardNM, status: status }, function (data) {
         $("#msg").html(data);
     });  
    // debugger;
     toastr.success('Scorecard Saved as Draft.', 'Success Alert', { timeOut: 2000 });
-    window.location.href = '/Audit/GetScorecards'
+    window.location.href = rootUrl + 'Audit/GetScorecards'
     //$.post('/Audit/GetScorecards', function (result) { });
  });
 
@@ -1064,7 +1064,7 @@ $("#btnScSave").click(function () {
 
 
     $.ajax({
-        url: '/Audit/EditScoreCard',
+        url: rootUrl + 'Audit/EditScoreCard',
         type: "Post",
         data: { 'ScoreCardNM': scardnm },
         success: function (response) {
@@ -1080,7 +1080,7 @@ $("#btnScSave").click(function () {
             toastr.warning('Scorecard Activation Failed. Please check wieghtage and try again ...', 'Failure Alert', { timeOut: 2000 });
         }
     });
-    window.location.href = '/Audit/GetScorecards'
+    window.location.href = rootUrl + 'Audit/GetScorecards'
 });
 
 

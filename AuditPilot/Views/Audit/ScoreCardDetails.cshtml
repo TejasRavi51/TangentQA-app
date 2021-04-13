@@ -151,7 +151,7 @@
             var scname = $("#ddlScoreCard option:selected").text();
             // GetAudit(scname);
             var scorecardText = scname;
-            $("#div1").load("/Audit/ScoreCardbyidDetailsPartial", { ScoreCardNameTxt: scorecardText });
+            $("#div1").load(rootUrl + "Audit/ScoreCardbyidDetailsPartial", { ScoreCardNameTxt: scorecardText });
             $("#btnGetAudit").prop("disabled", true);
 
         });

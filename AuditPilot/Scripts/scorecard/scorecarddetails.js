@@ -14,7 +14,7 @@ function GetCompanyDropDown(usercompanyId) {
   //  alert("company dd");
     $.ajax({
         type: "GET",
-        url: "../Audit/GetCompaniesList",
+        url: rootUrl + "Audit/GetCompaniesList",
         // data: '{name: "abc" }',
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -53,7 +53,7 @@ function GetScoreCardDropDown(id) {
    // alert(id);
     $.ajax({
         type: "GET",
-        url: "/Audit/GetScoreCardList",
+        url: rootUrl + "Audit/GetScoreCardList",
         data: { companyId: id },
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -86,7 +86,7 @@ function GetScoreCardDropDown(id) {
     //alert(ParamId);
     $.ajax({
         type: "post",
-        url: "/Audit/ScoreCardbyidDetails",
+        url: rootUrl + "Audit/ScoreCardbyidDetails",
         //contentType: 'application/json; charset=utf-8',
         data: { 'ScoreCardNameTxt': scorecardText },
         // data: { 'sectionName': SectionName, 'weightage': Weightage, 'scorecardName': scoreCardName },
@@ -163,7 +163,7 @@ $(document).on('click', '#ddlParamId', function () {
 
     $.ajax({
         type: "GET",
-        url: "/Audit/GetQuestionsValuesList",
+        url: rootUrl + "Audit/GetQuestionsValuesList",
         data: { companyId: id },
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -256,7 +256,7 @@ $(document).on('click', '#btnsubmit', function () {
         console.log(dataItem);
         setTimeout(function () {
             $.ajax({
-                url: '../Audit/SaveDraftAuditDetails',
+                url: rootUrl + 'Audit/SaveDraftAuditDetails',
                 type: "Post",
                 data: dataItem,
                 success: function (response) {
@@ -331,7 +331,7 @@ $(document).on('click', '#btndraft', function () {
         };
         console.log(dataItem);
         $.ajax({
-            url: '../Audit/SaveDraftAuditDetails',
+            url: rootUrl + 'Audit/SaveDraftAuditDetails',
             type: "Post",
             data: dataItem,
             success: function (response) {
