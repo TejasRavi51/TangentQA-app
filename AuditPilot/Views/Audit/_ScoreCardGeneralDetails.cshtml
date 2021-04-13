@@ -1,0 +1,169 @@
+﻿@model List<SCardApp.Models.ScoreCardGeneralDetails>
+@if (Model.Count > 0)
+{
+    <div class="row">
+        <div class="col-lg-12 col-md-12 ">
+            <table class="table table-bordered" border="1" style="border-color:black !important">
+                <tr>
+                    <th>General</th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="hidden" id="_hdnadscoreitems" name="_hdnadscoreitems" />
+                        @foreach (var defualtItem in Model.Where(p => p.IsDefault == true))
+                        {
+
+                            if (defualtItem.ParamType == "TextBox" && @defualtItem.ParamID != 33)
+                            {
+                        <div class="col-xs-3">
+                            <b>@defualtItem.ParamTitle</b>
+                            <span style="color:red; font-size:20px;">*</span>
+                            @if (@defualtItem.ParamID != 1 && @defualtItem.ParamID != 2 && @defualtItem.ParamID != 34)
+                            {
+                                <input type="text" class="form-control clsgetdata isreq" value="" id="txtG_@defualtItem.scQuestionID" data-id="@defualtItem.scQuestionID" data-type="R" placeholder="Enter Values" size="50" />
+                            }
+                            @if (@defualtItem.ParamID == 1)
+                            {
+                                @Html.DropDownList("Agents", new SelectList(ViewBag.AgentsList, "UserId", "DisplayName"), "--Select--",
+                            new { @id = "ddl_" + @defualtItem.scQuestionID, @data_id = @defualtItem.scQuestionID, @data_type = "M",
+                                @class = "form-control clsgetdata ddlsc" })
+
+                            }
+                            @if (@defualtItem.ParamID == 2)
+                            {
+                                <input type="text" class="form-control clsgetdata isreq" value="@Session["DisplayName"]" id="txtG_@defualtItem.scQuestionID" data-id="@defualtItem.scQuestionID" data-type="R" placeholder="Enter Values" size="50" readonly />
+                            }
+                            @if (@defualtItem.ParamID == 34)
+                            {
+                                <input type="text" class="form-control clsgetdata isreq" value="0" id="txtGSC" data-id="@defualtItem.scQuestionID" data-type="R" placeholder="Enter Values" size="50" readonly />
+                            }
+
+                        </div>
+                            }
+                            if (@defualtItem.ParamID == 33)
+                            {
+                                <div class="col-xs-3">
+                                    <b>@defualtItem.ParamTitle</b>
+                                    <span style="color:red; font-size:20px;">*</span>
+                                    <input type="number" class="form-control clsgetdata isreq" value="" id="txtG_@defualtItem.scQuestionID" data-id="@defualtItem.scQuestionID" data-type="R" placeholder="Enter Values" size="50" />
+                                </div>
+                            }
+                            if (defualtItem.ParamType == "Date")
+                            {
+                                <div class="col-xs-3">
+                                    <b>@defualtItem.ParamTitle</b>
+                                    <span style="color:red; font-size:20px;">*</span>
+                                    <input type="date" class="form-control clsgetdata isreq" value="" id="txtG_@defualtItem.scQuestionID" data-id="@defualtItem.scQuestionID" data-type="R" placeholder="Click datepicker" size="50" />
+
+                                </div>
+                            }
+                        }
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12 ">
+           
+            <table id="TablePrint" class="table table-bordered" border="1" style="border-color:black !important">
+                <thead>
+                    <tr style="background-color:#37474F;color:#FFFFFF">
+                        <th>
+                            <b>Category</b>
+                        </th>
+                        <th>
+                            <b>Measures</b>
+                        </th>
+                        <th>
+                            <b>Metrics</b>
+                        </th>
+                        <th>
+                            <b>Comments</b>
+                        </th>
+                        <th>
+                            <b>Score</b>
+                        </th>
+                        <th>
+                            <b>Weightage</b>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="upcomingMeetings"></tbody>
+                <tbody>
+
+                    @foreach (var items in Model.Where(p => p.IsDefault == false).Select(p => p.SectionName).Distinct())
+                    {
+                        var @secId = Model.Where(p => p.IsDefault == false && p.SectionName == items).Select(P => P.scSectionID).Distinct().FirstOrDefault();
+                        var @scWgt = Model.Where(p => p.IsDefault == false && p.SectionName == items).Select(P => P.SectionWght).Distinct().FirstOrDefault();
+                    <tr>
+                       
+                        <td colspan="5">
+                            <div class="col-xs-3">
+                                <b>@items </b>
+                                <input type="text" id="txtSW_@secId" size="2" data-sectionwId="@secId" data-type="R" value="@scWgt" readonly />
+                            </div>
+                            </td><td colspan="1"><b><span id="sec_@secId" class="sectionIdcls" data-sectionId="@secId"></span></b></td>
+                    </tr>
+                        foreach (var ite in Model.Where(p => p.IsDefault == false && p.SectionName == items).OrderBy(p => p.QSeq).Select(P => P.ParamTitle).Distinct())
+                        {
+                            var @id = Model.Where(p => p.IsDefault == false && p.SectionName == items && p.ParamTitle == ite).Select(P => P.scQuestionID).Distinct().FirstOrDefault();
+                            var @type = Model.Where(p => p.IsDefault == false && p.SectionName == items && p.ParamTitle == ite).Select(P => P.ParamType).Distinct().FirstOrDefault();
+                            var @Ctype = Model.Where(p => p.IsDefault == false && p.SectionName == items && p.ParamTitle == ite).Select(P => P.IsCommentReq).Distinct().FirstOrDefault();
+                            var @Qwgt = Model.Where(p => p.IsDefault == false && p.SectionName == items && p.ParamTitle == ite).Select(P => P.QWght).Distinct().FirstOrDefault();
+
+                            <tr>
+                                <td align="center" width="15%"><input type="text" id="txtSQ_@id" size="1" data-id="@id" data-type="R" value="@Qwgt" readonly /></td>
+                                <td width="27%">@ite</td>
+                                <td width="10%">
+                                    
+                                    @if (type == "List" )
+                                    {
+                                    @Html.DropDownList("test", Model.Where(p => p.IsDefault == false && p.SectionName == items && p.ParamTitle == ite).Select(p => new SelectListItem { Value = p.scWeightage, Text = p.scQuestionValues }), "--Select--", new { @id = "ddl_" + id, @data_id = id, @data_type = "M", @data_secid= secId, @class = "form-control clsgetdata ddlsc" })
+                                    
+                                    }
+                                    else if(type=="SList")
+                                    {
+                                    @Html.DropDownList("test", Model.Where(p => p.IsDefault == false && p.SectionName == items && p.ParamTitle == ite).Select(p => new SelectListItem { Value = p.scWeightage, Text = p.scQuestionValues }), "--Select--", new { @id = "ddl_" + id, @data_id = id, @data_type = "M", @data_secid = secId, @data_Sec = @items ,@class = "form-control clsgetdata ddlsc" })
+                                    }
+                                    else
+                                    {
+                                    <input type="text" class="form-control clsgetdata" id="txtM_@id" data-id="@id" data-type="R" value="" placeholder="Enter Metrics" />
+                                    }
+                                </td>
+                                <td nowrap>
+                                    
+                                        @if (Ctype == true)
+                                        {
+                                            <input type="text" style="border-color:red" class="form-control clsgetdata isreq " id="txtC_@id" data-id="@id" data-type="C" value="" placeholder="Enter Comments" />
+                                        }
+                                        else
+                                        {
+                                            <input type="text" class="form-control clsgetdata" id="txtC_@id" data-id="@id" data-type="C" value="" placeholder="Enter Comments" />
+                                        }
+                                  
+                                </td>
+                                <td width="7%">
+                                     <input type="text" class="form-control clsgetdata sec_@secId" id="txtS_@id" data-id="@id" data-type="S" value="" readonly />
+                                </td>
+                                <td width="8%">
+                                     <input type="text" class="form-control clsqwgetdate" id="txtWQ_@id" data-id="@id" data-type="S" value="" readonly />
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 ">
+            <input type="checkbox" title="SendNotification" value="Send Notification" checked="checked" /> Send Notification to Team Lead<br />
+            <input id="btnsubmit" value="Save" class="btn btn-primary" style="background-color: #90c1b8 !important;" />
+            <input id="btndraft" value="Draft" class="btn btn-primary" style="background-color: #90c1b8 !important;" />
+        </div>
+    </div>
+}

@@ -1,0 +1,126 @@
+﻿@model IEnumerable<SCardApp.Models.UserAuditsModel>
+
+@{
+    ViewBag.Title = "AuditsView";
+
+
+}
+
+<h2>AuditsView</h2>
+
+<p>
+
+    @{
+        WebGrid grid = new WebGrid(source: Model, canSort: false);
+    }
+
+</p>
+<script src="~/Scripts/bootstrap.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<style type="text/css">
+    .mainpanel {
+        margin-left: 230px;
+        min-height: 636px;  
+        padding: 20px;
+        padding-top: 20px;
+        padding-right: 20px;
+        padding-bottom: 20px;
+        padding-left: 20px;
+    }
+
+    .info th {
+        background: #E0E0E0 !important;
+    }
+
+        .info th a {
+            color: #000000;
+            font-weight: normal;
+        }
+</style>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            var size = $("#main #gridT > thead > tr >th").size();
+            $("#main #gridT > thead > tr >th").last().remove();
+            $("#main #gridT > thead > tr").prepend("<th></th>");
+            $("#main #gridT > tbody > tr").each(function (i, el) {
+                $(this).prepend(
+                    $("<td></td>")
+                        .addClass("expandRecord")
+                        .addClass("recordHoverEffect")
+                        .attr('title', "Show Hide Details")
+                );
+
+
+                var table = $("table", this).parent().html();
+
+                $(this).after("<tr><td></td><td style='padding:5px; margin:0px;' colspan='" + (size - 1) + "'>" + table + "</td></tr>");
+                $("table", this).parent().remove();
+
+                $(".recordHoverEffect", this).live("click", function () {
+                    $(this).parent().closest("tr").next().slideToggle(100);
+                    $(this).toggleClass("expandRecord collapseRecord");
+                });
+            });
+
+
+            $("#main #gridT > tbody > tr td.expandRecord").each(function (i, el) {
+                $(this).toggleClass("expandRecord collapseRecord");
+                $(this).parent().closest("tr").next().slideToggle(100);
+            });
+
+        });
+    </script>
+}
+<div id="main" style="padding: 25px;">
+    @grid.GetHtml(tableStyle: "table table-bordered",
+    headerStyle: "info",
+    footerStyle: "webgrid-footer",
+    alternatingRowStyle: "webgrid-alternating-row",
+    selectedRowStyle: "webgrid-selected-row",
+    rowStyle: "gridrow",
+                //htmlAttributes: new { id = "gridT", width = "900px", style = "background-color:skyblue; color:blue; font-size:14pt; font-family:TimesNewRoman;" },
+                columns: grid.Columns(
+                        grid.Column("auditModel.AuditId", "Audit ID"),
+                        grid.Column("auditModel.ADate", "Created"),
+                        grid.Column("auditModel.UserId", "Auditor"),
+
+                        grid.Column(format: (item) =>
+                        {
+                            WebGrid subGrid = new WebGrid(source: item.auditSectionModels);
+                            return subGrid.GetHtml(tableStyle: "table table-bordered",
+                            headerStyle: "info",
+                            footerStyle: "webgrid-footer",
+                            alternatingRowStyle: "webgrid-alternating-row",
+                            selectedRowStyle: "webgrid-selected-row",
+                            rowStyle: "gridrow",
+                                // htmlAttributes: new { id = "nestedT", style = "background-color:red; color:white; font-size:12pt; font-family:verdana;" },
+                                columns: subGrid.Columns(
+                                        subGrid.Column("SectionId", " Section ID"),
+                                        subGrid.Column("SectionName", "Section Name"),
+                                        subGrid.Column("SecScore", "Score")
+                                        //subGrid.Column(format: (item2) =>
+                                        //{
+                                        //    WebGrid subGrid2 = new WebGrid(source: item2.auditResponsesModels);
+                                        //    return subGrid.GetHtml(tableStyle: "table table-bordered",
+                                        //    headerStyle: "info",
+                                        //   footerStyle: "webgrid-footer",
+                                        //   alternatingRowStyle: "webgrid-alternating-row",
+                                        //   selectedRowStyle: "webgrid-selected-row",
+                                        //   rowStyle: "gridrow",
+                                        //       columns: subGrid2.Columns(
+                                        //                subGrid2.Column("ParaTitle", "Title"),
+                                        //                subGrid2.Column("Response", "Response"),
+                                        //                subGrid2.Column("Score", "Score"),
+                                        //                subGrid2.Column("Comments", "Comments")
+                                        //            )
+                                        //        );
+                                        //})
+
+                                        )
+                                    );
+                        })
+                    )
+                )
+</div>

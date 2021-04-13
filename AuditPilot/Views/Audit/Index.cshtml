@@ -1,0 +1,329 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <h3 class="page-header">Score Card</h3>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!--Add Score Card Name-->
+<div class="row">
+    <div class="col-lg-12">
+        <input type="hidden" id="hdnScoreCardId" name="hdnScoreCardId" />
+        <div class="form-inline">
+            <div class="col-lg-8">
+                <table id="scrtab" class="table table-responsive" >
+                    <tr>
+                        <td align="right">@Html.ActionLink("New Scorecard", "Index", "Audit", new { @class = "btn btn-primary", @style = "background-color: #742774 !important;" })</td>
+                        <td align="right">@Html.ActionLink("My ScoreCards", "GetScoreCards", "Audit", new { @class = "btn btn-primary", @style = "background-color: #742774 !important;" })</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="col-lg-4 ">
+                                <label class="pull-right" style="padding-top: 7px;">Scorecard Name:</label>
+                            </div>
+                            <input class="form-control" id="ScoreCardNameTxt" value="@ViewBag.SCNameEd">
+                            <button type="button" title="Save" class="btn btn-primary" id="btnScoreCardSave" name="btnScoreCardSave" style="background-color: #90c1b8 !important;">@ViewBag.TxMode</button>
+                            <br />
+                            <span style="color:#ff0000" id="SpanCardNameError"></span>
+
+                        </td>
+                    </tr>
+                    </table>
+                    
+            </div>
+        </div>
+        @*<div class="panel panel-default">*@
+
+        @*<div class="panel-body">*@
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="form-group ">
+                    <div class="row">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*</div>*@
+        @*</div>*@
+    </div>
+</div>
+
+<!--Add Section Popup-->
+<div class="row" style="display:none;" id="btnAddSection">
+    <div class="col-lg-12">
+        @*<div class="panel panel-default">*@
+
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#myModal" style="background-color: #742774 !important;">
+                Add Section
+            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary" style="background-color: #742774 !important;">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel">Section</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="panel panel-default">
+
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <form role="form">
+                                                        <div class="form-group">
+                                                            <label>Section Name</label>
+                                                            <input class="form-control" placeholder="Section Name" id="txtSectionName" autocomplete="off" />
+                                                            <span id="SpanSectionError" style="color:#ff0000"></span>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Weightage</label>
+                                                            <input class="form-control" placeholder="Weightage" id="txtWeightage" autocomplete="off" maxlength="2" />
+                                                            <span id="SpanWeightageError" style="color:#ff0000"></span>
+                                                            <span id="errmsg" style="color:#ff0000"></span>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" style="background-color: #742774 !important;">Cancel</button>
+                            <button type="button" class="btn btn-primary" id="btnSectionSave" name="BtnSectionSave" style="background-color: #742774 !important;">Save</button>
+                        </div>
+
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+            @if (@ViewBag.isEdit != "Active")
+            {
+                <button type="button" class="btn btn-primary" id="btnScSave" style="background-color: #742774 !important;">Active</button>
+            }
+            @if (@ViewBag.isEdit == "Active")
+            {
+                <button type="button" class="btn btn-primary" id="btnScSaveDA" style="background-color: #742774 !important;">DeActive</button>
+            }
+            <button type="button" class="btn btn-primary" id="btnScSaveDraft" style="background-color: #742774 !important;">Draft</button>
+
+        </div>
+        <!-- .panel-body -->
+        @*</div>*@
+        <!-- /.panel -->
+    </div>
+
+</div>
+
+<!--Edit Section Popup-->
+
+<div id="myEDISectionModal" class="modal fade" tabindex="-2">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #742774 !important;">
+                <h5 class="modal-title">Edit Section</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <table>
+                    <tr>
+
+                        <td>Section Name :</td>
+                        <td>
+                            <input type="hidden" id="hdnsectionId" />
+                            <input type="text" id="txtEDitSectionName" />
+                        </td>
+                        <td>Weightage :</td>
+                        <td><input type="text" id="txtEDitWeightage" /></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="background-color: #742774 !important;">Cancel</button>
+                <button type="button" class="btn btn-primary" id="btnEditSectionSave" name="BtnSectionSave" style="background-color: #742774 !important;">Savel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Add Parameter Modal Popup-->
+
+<div id="MyParamModel" class="modal fade" tabindex="-1">
+    <div class="modal-dialog" style="width:50%">
+        <div class="modal-content">
+            <div class="modal-header bg-primary" style="background-color: #742774 !important;">
+                <h5 class="modal-title">Add Parameter</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" style="margin: 10px!important">
+                <form id="fm">
+                    <div class="form-group">
+                        <input type="hidden" id="hdnSectionId" />
+                        <input type="hidden" id="hdnScoreCardId" />
+                        <input type="hidden" id="hdnquestionId" />
+                        <input type="hidden" id="hdnparamId" />
+                        <label>Title</label>
+                        <input class="form-control" id="txtParamName">
+                        <span id="SpanTitleError" style="color:#ff0000"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Type</label>
+                                <select id="ddlParams" class="form-control"></select>
+                                <span id="spanInventoryCodeId" class="text-danger" style="color:#ff0000"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Weightage</label>
+                                <input class="form-control" id="txtParamWeightage">
+                                <span id="SpanWeightageIdError" style="color:#ff0000"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+
+                                <label>Is Mandatory</label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="IsMandatory" id="IsMandatory" value="Yes" checked="checked">Yes
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="IsMandatory" id="IsMandatory" value="No">No
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Is Comments Required</label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="IsCurrentReq" id="IsCurrentReq" value="Yes" checked="checked">Yes
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="IsCurrentReq" id="IsCurrentReq" value="No">No
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8" id="divParamTitleListId" style="display:none">
+                            <div class="form-group">
+                                @*<label class="custom-label">ParamList</label>
+                                <input type="text" class="form-control" id="txtParamTitleList">*@
+                                @*<input type="textbox" class="someclass">
+                                <button class="remove">Remove</button><br />*@
+                                <button id="add" class="btn btn-primary" style="background-color: #742774 !important;">Click to Add List Values</button>
+                                <span id="SpanlistIdError" style="color:#ff0000"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                     <div class="row">
+                        <div class="col-md-6" id="divParamTitleListScalingId" style="display:none">
+                            <div class="form-group">
+                                @*<label class="custom-label">ParamList</label>
+                                    <input type="text" class="form-control" id="txtParamTitleList">*@
+                                @*<input type="textbox" class="someclass">
+                                    <button class="remove">Remove</button>*@<br />
+                                <label>Scaling</label>
+                                <input type="text" class="form-control" id="txtParamTitleListsacal">
+                                <span id="SpanlistIdErrorscal" style="color:#ff0000"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--<div class="row" id="rowlist" style="display:none">
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="name">Enter List Item:</label>
+                            <input type="text" id="name" class="form-control" placeholder="Enter A List Item" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group" style="padding-top: 24px;">
+                            <button id="btnListAdd" class="btn btn-primary">Add</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">-->
+                    @*<select class="js-tagselect2 clslist form-control" id="txtlist" multiple="multiple"></select>*@
+                    @*<select class="form-control js-example-tokenizer" multiple="multiple">
+                            <option selected="selected">orange</option>
+                            <option>white</option>
+                            <option selected="selected">purple</option>
+                        </select>*@
+                    <!--<label for="list">List Items:</label>
+                            <select id="list" class="form-control" name="list" multiple>
+                            </select>
+                            <br />
+                            <button id="btnListRemove" class="btn btn-primary">Remove Selected List Item</button>
+
+                        </div>
+                    </div>-->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnParamSave" style="background-color: #742774 !important;">Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="background-color: #742774 !important;">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Section and Parameter details-->
+<div class="row">
+    <div class="col-lg-12">
+        @*<div class="panel panel-default">*@
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered table-hover" style="width:100%" id="Sectiontbl" hidden="hidden">
+                    <thead>
+                        <tr>
+                            <th class="custom-width"></th>
+
+                            <th>Section Name</th>
+                            <th>Section Weight</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="custom-width"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                     </tbody>
+                </table>
+                
+                   
+                
+            </div>
+        </div>
+        @*</div>*@
+    </div>
+    
+    @*<button type="button" class="btn btn-primary" style="display:none"  title="" id="ScoreCardLink" name="ScoreCardLink">View ScoreCard Details</button>*@
+</div>
+
+

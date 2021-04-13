@@ -1,0 +1,16 @@
+﻿@model SCardApp.Models.UserMaster
+
+@using (Html.BeginForm("Logout", "UserMaster", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(s => s.ReturnURL)
+
+    <div>
+        @if (TempData["ErrorMSG"] != null)
+        {
+            <label style="color:maroon;"> @TempData["ErrorMSG"] </label><br />
+        }
+        <button type="submit">&nbsp;&nbsp;Logout&nbsp;&nbsp;</button>
+        @*<br />@Html.CheckBoxFor(s => s.isRemember) Remember ME*@
+    </div>
+}

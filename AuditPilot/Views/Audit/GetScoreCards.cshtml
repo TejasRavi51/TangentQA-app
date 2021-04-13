@@ -1,0 +1,51 @@
+﻿@model IEnumerable<SCardApp.Models.CScoreCardListModel>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "GetScoreCards";
+}
+
+<br />
+<h2>My ScoreCards</h2>
+
+<p>
+    @Html.ActionLink("Create Scorecard", "Index", "Audit", new { @class = "btn btn-primary" , @style = "background-color: #90c1b8 !important;" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ScorecardID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ScorecardName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ScoreCardCnt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SCStatus)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ScorecardID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ScorecardName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ScoreCardCnt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SCStatus)
+        </td>
+        <td>
+            @Html.ActionLink("View", "Index", new { scname = item.ScorecardName , isEdit = item.SCStatus/* id=item.PrimaryKey */ }, new {@class = "btn btn-info fa fa-eye", @style = "background-color: #742774 !important;" })
+           
+        </td>
+    </tr>
+}
+
+</table>

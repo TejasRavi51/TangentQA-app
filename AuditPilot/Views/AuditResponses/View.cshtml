@@ -1,0 +1,100 @@
+﻿@model IEnumerable<SCardApp.Models.UserAuditsModel>
+@using SCardApp.Models;
+
+@{
+    ViewBag.Title = "View";
+}
+
+<br />
+<br />
+<h2>Audit Responses</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<script src="~/Scripts/bootstrap.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<style type="text/css">
+    .mainpanel {
+        margin-left: 230px;
+        min-height: 636px;
+        padding: 20px;
+        padding-top: 20px;
+        padding-right: 20px;
+        padding-bottom: 20px;
+        padding-left: 20px;
+    }
+
+    .info th {
+        background: #E0E0E0 !important;
+    }
+
+        .info th a {
+            color: #000000;
+            font-weight: normal;
+        }
+</style>
+
+<table class="table-bordered table-responsive" id="AuditTab">
+    <tr>
+        <th>AuditId</th>
+        <th>Created</th>
+        <th>Auditor</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+
+        <tr>
+            <td>@item.auditModel.AuditID</td>
+            <td>@item.auditModel.ADate</td>
+            <td>@item.auditModel.UserID</td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <table class="table" id="AuditSecTab">
+                    <tr>
+                        <th>SectionName</th>
+                        <th>Score</th>
+                    </tr>
+                    @foreach (AuditSectionModel asec in item.auditSectionModels)
+                    {
+                        <tr>
+                            <td>@asec.SectionName</td>
+                            <td>@asec.SecScore</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <table class="table" id="AuditSecQs">
+                                    <tr>
+                                        <th>Tile</th>
+                                        <th>Response</th>
+                                        <th>Score</th>
+                                        <th>Comments</th>
+                                    </tr>
+                                    @foreach (AuditResponsesModel ares in asec.auditResponsesModels)
+                                    {
+                                        <tr>
+                                            <td>@ares.ParamTitle</td>
+                                            <td>@ares.Response</td>
+                                            <td>@ares.Score</td>
+                                            <td>@ares.Comments</td>
+                                        </tr>
+                                    }
+
+                                </table>
+                            </td>
+
+                        </tr>
+
+                    }
+                </table>
+
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3"><br /></td>
+        </tr>
+    }
+
+</table>

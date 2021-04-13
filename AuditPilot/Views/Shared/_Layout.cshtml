@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audit Application</title>
+
+    <link rel="icon" href="~/dist\img\logo.PNG" type="image/gif" sizes="16x16">
+    <!-- Font Awesome -->
+    <!-- Ionicons -->
+    <!-- daterange picker -->
+    @*<link rel="stylesheet" href="~/plugins/daterangepicker/daterangepicker.css">*@
+    <link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
+    <!-- overlayScrollbars -->
+    <!-- Google Font: Source Sans Pro -->
+    <!-- Bootstrap Core CSS -->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="~/Content/metisMenu.min.css" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link href="~/Content/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="~/Content/dataTables/dataTables.responsive.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="~/Content/startmin.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+     <!--<link href="~/CSS/font-awesome.min.css" rel="stylesheet" type="text/css">-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" 
+          integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" />
+
+
+</head>
+<body style="background-color:antiquewhite;min-height:100%;height:auto !important;height:100%;">
+    @{
+        string pageUrl = Request.Url.PathAndQuery.ToString();
+    }
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background-color:#dedbc3;color:white">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @*@Html.ActionLink("Scorecard Application", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
+                <a href="#" style="color:black;text-decoration:none"><img src="~/images/logo.png" /><b>TangentQA Corp.</b></a>
+            </div>
+            <div class="navbar-collapse collapse" style="co">
+                <ul class="nav navbar-nav" style="color:black">
+                    @if (Session["causerinfo"] != null)
+                    {
+                        <li><a href="~/User/GetAllUserDetails" style="color:black;"><i class="#"></i> Users</a></li>
+                        <li><a href="~/Team/Index" style="color:black;"><i class="#"></i>Teams</a></li>
+                        <li class="@(pageUrl.ToLower().Contains("/Audit/GetScoreCards") ? "active" : string.Empty) setBtnMargin"><a href="~/Audit/GetScoreCards" style="color:black;"><i class="#"></i> Score Card</a></li>
+                        <li class="@(pageUrl.ToLower().Contains("/Audit/ScoreCardDetails") ? "active" : string.Empty) setBtnMargin"><a href="~/Audit/ScoreCardDetails" style="color:black;"><i class="#"></i>Audit</a></li>
+                        <li><a href="~/Audit/GetUserAuditDetails" style="color:black;"><i class=""></i>View Audit Responses</a></li>
+                        <li><a href="~/Report/Index" style="color:black;"><i class="#"></i>Reports</a></li>
+                        <li><a href="#" style="color:black;"><i class="#"></i>Challenges</a></li>
+                        <li><a href="#" style="color:black;"><i class="#"></i>Coaching</a></li>
+                    }
+
+                    @if (Session["caauserinfo"] != null)
+                    {
+                        <li class="@(pageUrl.ToLower().Contains("/Audit/ScoreCardDetails") ? "active" : string.Empty) setBtnMargin"><a style="color:black;" href="~/Audit/ScoreCardDetails"><i class="#"></i>Audit</a></li>
+                        <li><a href="~/Audit/GetUserAuditDetails" style="color:black;"><i class=""></i>View Audit Responses</a></li>
+                        <li><a href="#" style="color:black;"><i class="#"></i>Challenge</a></li>
+                    }
+                    @if (Session["tluserinfo"] != null)
+                    {
+                        <li><a href="~/Audit/GetUserAuditDetails"><i class=""></i>View Audit Responses</a></li>
+
+                    }
+
+                    @if (Session["userinfo"] != null)
+                    {
+                        <li><a href="~/Department/GetAllDepartmentDetails" style="color:black;"><i class="#"></i>Company</a></li>
+                        <li><a href="~/User/GetAllUserDetails" style="color:black;"><i class="#"></i>Users</a></li>
+                        <li><a href="#"><i class="#" style="color:black;"></i>Reports</a></li>
+                    }
+
+                </ul>
+                @if (Session["userinfo"] != null)
+                {
+                    <ul class="nav navbar-nav navbar-right navbar-light">
+                        <li>
+                            @Html.ActionLink("Hello " + ((SCardApp.Helpers.UserInfo)Session["userinfo"]).DisplayName + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                        </li>
+                        <li><a href="~/Home/index" style="color:black;"><i class="#"></i>Logout</a></li>
+                    </ul>
+                }
+                @if (Session["caauserinfo"] != null)
+                {
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            @Html.ActionLink("Hello " + ((SCardApp.Helpers.UserInfo)Session["caauserinfo"]).DisplayName + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                        </li>
+                        <li><a href="~/Home/index" style="color:black;"><i class="#"></i>Logout</a></li>
+                    </ul>
+                }
+                @if (Session["causerinfo"] != null)
+                {
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            @Html.ActionLink("Hello " + ((SCardApp.Helpers.UserInfo)Session["causerinfo"]).DisplayName + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                        </li>
+                        <li><a href="~/Home/index"><i class="#"></i>Logout</a></li>
+                    </ul>
+                }
+
+
+            </div>
+        </div>
+    </div>
+    <div class="container body-content" style="height:100%;">
+        <br />
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>
+                &copy; @DateTime.Now.Year - Audit Application  <a href="#"><img src="~/Images/twt.PNG" sizes="" /></a> &nbsp;<a href="#"><img src="~/Images/fb.PNG" />&nbsp;</a><a href="#">
+                    <img src="~/Images/link.PNG" />
+                </a>
+            </p>
+        </footer>
+    </div>
+
+    @RenderSection("scripts", required: false)
+
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
+    <!-- DataTables JavaScript -->
+    <script src="/Scripts/dataTables/jquery.dataTables.min.js"></script>
+    <script src="/Scripts/dataTables/dataTables.bootstrap.min.js"></script>
+    <script src="~/Scripts/ScoreCard/scorecard.js?ver<%=DateTime.Now.Ticks.ToString()%>" type="text/javascript""></script>
+    <!-- Custom Theme JavaScript -->
+    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+    @*<script>
+            $(document).ready(function () {
+                $('#dataTables-example').DataTable({
+                    responsive: true
+                });
+
+                //$('#btnAddSection').css("display", "none");
+            });
+        </script>*@
+    <script>
+        // tooltip demo
+        $('.tooltip-demo').tooltip({
+            selector: "[data-toggle=tooltip]",
+            container: "body"
+        })
+
+        // popover demo
+        $("[data-toggle=popover]").popover()
+
+    </script>
+
+
+
+</body>
+</html>

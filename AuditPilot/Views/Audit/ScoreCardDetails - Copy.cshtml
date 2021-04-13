@@ -1,0 +1,100 @@
+﻿@model List<MyWebApp.Models.ScoreCardGeneralDetails>
+
+@{
+    ViewBag.Title = "Peform Servey";
+}
+
+<h2 style="color:blue">Peform Servey</h2>
+<br />
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 ">
+        <table class="table table-bordered" border="1" style="border-color:black !important">
+            <tr>
+                <td><b>General</b></td>
+            </tr>
+            @foreach (var defualtItem in Model.Where(p => p.IsDefault == true))
+            {
+                <tr>
+
+                    <td class="col-md-3" colspan="1"><b>@defualtItem.ParamTitle </b>:</td>
+                    @if (defualtItem.ParamType == "TextBox")
+                    {
+
+                    }
+
+                    <td><input type="text" class="form-control" value="" placeholder="Enter Values" /></td>
+                </tr>
+            }
+
+
+
+
+        </table>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 ">
+        @*<table id="TablePrint" class="table table-bordered">*@
+        <table id="TablePrint" class="table table-bordered" border="1" style="border-color:black !important">
+            <thead>
+                <tr style="background-color:#37474F;color:#FFFFFF">
+
+
+                    <th>
+                        <b>Category</b>
+                    </th>
+                    <th>
+                        <b>Measures</b>
+                    </th>
+                    <th>
+                        <b>Metrics</b>
+                    </th>
+                    <th>
+                        <b>Comments</b>
+                    </th>
+                    <th>
+                        <b>Score</b>
+                    </th>
+
+
+                </tr>
+
+
+            </thead>
+            <tbody>
+
+                @foreach (var items in Model.Where(p => p.IsDefault == false).Select(p => p.SectionName).Distinct())
+                {
+                    <tr>
+                        <td colspan="4">@items</td>
+                    </tr>
+                    foreach (var ite in Model.Where(p => p.IsDefault == false && p.SectionName == items).OrderBy(p => p.QSeq).Select(P => P.ParamTitle).Distinct())
+                    {
+                        <tr>
+                            <td></td>
+                            <td>@ite</td>
+                            <td>
+                                @Html.DropDownList("SelectedMovieType", Model.Where(p => p.IsDefault == false && p.SectionName == items && p.ParamTitle == ite).Select(p => new SelectListItem { Value = p.scQLOVID.ToString(), Text = p.scQuestionValues }))
+                            </td>
+                            <td><input type="text" class="form-control" value="" placeholder="Enter Values" /> </td>
+                            <td></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 ">
+        <input type="submit" value="Save" class="btn btn-primary" />
+        <input type="submit" value="Draft" class="btn btn-primary" />
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.js" type="text/javascript"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js" type="text/javascript"></script>
+

@@ -1,0 +1,86 @@
+﻿@model IEnumerable<SCardApp.Models.UserModel>
+<br />
+<br />
+<h4>Users List</h4>
+<p>
+    @*@Html.ActionLink("Create New", "AddUser", new { @class = "btn btn-primary" })*@
+    @Html.ActionLink("Create", "AddUser", "User", new { @class = "btn btn-primary", @style = "background-color: #742774 !important;" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RoleName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+
+        if (Session["causerinfo"] == null)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CompanyName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoleName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditUserDetails", new { id = item.UserId  /* id=item.PrimaryKey */ }) |
+                    @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |*@
+                    @Html.ActionLink("Delete", "DeleteUser", new { id = item.UserId },
+                 new { onclick = "return confirm('Are sure wants to delete?');" })
+                </td>
+            </tr>
+        }
+        if (Session["causerinfo"] != null && item.CompanyId == Convert.ToInt32(Session["UserCompanyId"].ToString()))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CompanyName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoleName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditUserDetails", new { id = item.UserId  /* id=item.PrimaryKey */ }) |
+                    @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |*@
+                    @Html.ActionLink("Delete", "DeleteUser", new { id = item.UserId },
+                 new { onclick = "return confirm('Are sure wants to delete?');" })
+             </tr>
+
+        }
+    }
+
+        </table>

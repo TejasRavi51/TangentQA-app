@@ -1,0 +1,57 @@
+﻿@model IEnumerable<SCardApp.Models.DeptModel>
+<br />
+
+<br />
+<h4>Company List</h4>
+<p>
+    @*@Html.ActionLink("Create New", "AddDepartment", new { @class = "btn btn-primary" })*@
+    @Html.ActionLink("Create", "AddDepartment", "Department", new { @class = "btn btn-primary", @style = "background-color: #742774 !important;" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.url)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContactNo)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.url)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContactNo)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditDepartmentDetails", new { id = item.CompanyID /* id=item.PrimaryKey */ }) |
+                @*@Html.ActionLink("Details", "EditDepartmentDetails", new { id = item.DeptId /* id=item.PrimaryKey */ }) |*@
+                @Html.ActionLink("Delete", "DeleteDepartment", new { id = item.CompanyID },
+                  new { onclick = "return confirm('Are sure wants to delete?');" })
+            </td>
+        </tr>
+    }
+
+</table>

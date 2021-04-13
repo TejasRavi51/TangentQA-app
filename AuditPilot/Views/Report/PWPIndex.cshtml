@@ -1,0 +1,109 @@
+﻿@model IEnumerable<SCardApp.Models.PWPReportModel>
+
+@{
+    ViewBag.Title = "PWPIndex";
+}
+
+<br />
+
+<h2>Paramerter Wise Performance</h2>
+@using (Html.BeginForm("PWPIndex", "Report", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-lg-12 col-md-12 ">
+            <table class="table">
+                <tr>
+                    <td>
+                        <div class="col-xs-3">
+                            <b>Module</b>
+                            <span style="color:red; font-size:20px;">*</span>
+                            @Html.DropDownList("Modules", new SelectList(ViewBag.RpModList, "ModuleId", "ModuleName"), "Select Module")
+                        </div>
+                        <div class="col-xs-3">
+                            <b>Reports</b>
+                            <span style="color:red; font-size:20px;">*</span>
+                            <select id="drpreport"><option value="0">Select Report</option></select>
+                        </div>
+                        <div class="col-xs-3">
+                            <b>ScoreCard</b>
+                            <span style="color:red; font-size:20px;">*</span>
+                            @Html.DropDownList("ScoreCard", new SelectList(ViewBag.ScList, "ScorecardID", "scorecardname"), "Select Scorecard")
+                        </div>
+                        <div class="col-xs-3">
+                            <b>Teams</b>
+                            <span style="color:red; font-size:20px;">*</span>
+                            <select id="drprteam"><option value="0">Select Team</option></select>
+                        </div>
+                        <div class="col-xs-3">
+                            <b>Agents</b>
+                            <span style="color:red; font-size:20px;">*</span>
+                            <select id="drpAgent"><option value="0">Select Agent</option></select>
+                        </div>
+                        <div class="col-xs-3">
+                            <b>Duration</b>
+                            <span style="color:red; font-size:20px;">*</span>
+                            <select id="drpduration">
+                                <option value="0">Select Agent</option>
+                                <option value="1">Last Week</option>
+                                <option value="2">This Week</option>
+                                <option value="3">Last Month</option>
+                                <option value="4">This Month</option>
+                                <option value="5">Last 3 Month</option>
+                                <option value="6">Last 6 Month</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-3">
+                            <input type="submit" value="View Report" class="btn btn-primary btn-sm submitConversion" style="background-color: #742774 !important;" />
+                        </div>
+
+                    <td>
+            </table>
+        </div>
+    </div>
+}
+
+@if (Model != null && Model.Count() != 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DisplayName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MgrId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fCnt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.pCnt)
+            </th>
+
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DisplayName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MgrId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fCnt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.pCnt)
+                </td>
+            </tr>
+        }
+
+    </table>
+}

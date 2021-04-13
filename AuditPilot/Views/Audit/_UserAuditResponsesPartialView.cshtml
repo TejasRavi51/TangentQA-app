@@ -1,0 +1,123 @@
+﻿@model List<SCardApp.Models.AuditResponseDetailsModel>
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 ">
+
+        <table id="TablePrint" class="table table-bordered" border="1" style="border-color:black !important">
+            <thead>
+                <tr style="background-color:#37474F;color:#FFFFFF">
+                    <th>
+                        <b>Category</b>
+                    </th>
+                    <th>
+                        <b>Measures</b>
+                    </th>
+                    <th>
+                        <b>Metrics</b>
+                    </th>
+                    <th>
+                        <b>Score</b>
+                    </th>
+                    <th>
+                        <b>Comments</b>
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody></tbody>
+            <tbody>
+                @{
+                    bool status = false;
+                }
+
+                @foreach (var item1 in Model)
+                {
+
+                    string name = string.Empty;
+                    if (name == "")
+                    {
+                        status = true;
+                    }
+                    else
+                    {
+
+                    }
+                    {
+                        name = item1.SectionName;
+                    }
+                    if (status == false)
+                    {
+                        @*<tr>
+                            <td colspan="5"><b>@item1.SectionName</b></td>
+                        </tr>*@
+                    }
+                   
+
+
+                    <tr>
+
+                        <td><b>@item1.SectionName</b></td>
+                        <td>@item1.ParamTitle</td>
+                        <td>
+                            @{
+                                string respval = string.Empty;
+                                if(@item1.ParamID == 4 || @item1.ParamID == 5)
+                                {
+                                    respval = Convert.ToDateTime(@item1.Response.Replace(" ", "-")).ToString("dd MMM yyyy");
+                                    
+                                }
+                                else
+                                {
+                                    respval = @item1.Response;
+                                }
+
+                            }
+                            @respval
+                        </td>
+                        <td>
+                            @{
+                                string scoreValue = string.Empty;
+                                if (@item1.Score == "" || @item1.Score == null)
+                                {
+                                    scoreValue = "N/A";
+                                }
+                                else
+                                {
+                                    scoreValue = item1.Score;
+                                }
+                            }
+                            @scoreValue
+                        </td>
+                        <td>
+                            @{
+                                string commentsValue = string.Empty;
+                                if (@item1.Comments == "" || @item1.Comments == null)
+                                {
+                                    commentsValue = "N/A";
+                                }
+                                else
+                                {
+                                    commentsValue = item1.Score;
+                                }
+                            }
+                            @commentsValue
+                        </td>
+                    </tr>
+                }
+
+
+                @*@foreach (var items in Model.Select(p => p.SectionName).Distinct())
+        {
+            <tr>
+                <td colspan="5"><b>@items</b></td>
+            </tr>
+            @{
+                var name = items;
+            }
+
+
+        }*@
+            </tbody>
+        </table>
+    </div>
+</div>

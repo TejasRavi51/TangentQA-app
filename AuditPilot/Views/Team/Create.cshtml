@@ -1,0 +1,51 @@
+﻿@model SCardApp.Models.TeamsModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<br />
+<h2>New Team</h2>
+
+
+@using (Html.BeginForm()) 
+{
+  //  @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>TeamsModel</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.TeamName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.TeamName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TeamName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TeamLeadId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @*@Html.EditorFor(model => model.TeamLeadId, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.DropDownListFor(o => o.TeamLeadId,
+      new SelectList(ViewBag.ListLeads, "UserId", "DisplayName"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TeamLeadId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default"  style = "background-color: #742774 !important;" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

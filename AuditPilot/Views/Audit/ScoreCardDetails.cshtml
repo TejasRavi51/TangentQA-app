@@ -1,0 +1,221 @@
+﻿@model List<SCardApp.Models.ScoreCardGeneralDetails>
+
+@{
+    ViewBag.Title = "Peform Servey";
+    int userId = Convert.ToInt32(Session["UserId"]);
+    string selectValue = string.Empty;
+
+    if (userId == 1)
+    {
+        selectValue = "";
+    }
+    else
+    {
+        selectValue = "disabled";
+    }
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h3 class="page-header">Audit</h3>
+    </div>
+    <input type="hidden" value="@Session["UserCompanyId"]" id="hdnUserCompanyId" />
+    <!-- /.col-lg-12 -->
+</div>
+@*<h2 style="color:blue">Peform Servey</h2>
+<br />*@
+<div class="row">
+    <div class="col-lg-2" style="padding-top:7px;">
+        <label>
+            Select Company :
+        </label>
+    </div>
+    <div class="col-lg-4">
+        <select id="ddlCompany" class="form-control" @selectValue></select>
+        <span id="spanCompany" class="text-danger" style="color:#ff0000"></span>
+    </div>
+    <div class="col-lg-2" style="padding-top:7px;">
+        <label>
+            Select Scorecard :
+        </label>
+    </div>
+    <div class="col-lg-4">
+        <select id="ddlScoreCard" class="form-control"></select><br /><button type="button" title="Perform Audit" class="btn btn-secondary" id="btnGetAudit" name="btnGetAudit" style="background-color: #90c1b8 !important;">Perfom Audit</button>
+        <span id="spanScoreCard" class="text-danger" style="color:#ff0000"></span>
+    </div>
+    
+    <br />
+
+
+    <div id="div1"></div>
+    <!--<div class="row">
+        <div class="col-lg-12 col-md-12 ">
+            <table class="table table-bordered" border="1" style="border-color:black !important">
+                <tr>
+                    <th><b>General</b></th>
+                    <th></th>
+                </tr>
+
+                <tbody id="generatab"></tbody>-->
+    @*@foreach (var defualtItem in Model.Where(p => p.IsDefault == true))
+        {
+            <tr>
+
+                <td class="col-md-3" colspan="1"><b>@defualtItem.ParamTitle </b>:</td>
+                @if (defualtItem.ParamType == "TextBox")
+                {
+
+                }
+
+                <td><input type="text" class="form-control" value="" placeholder="Enter Values" /></td>
+            </tr>
+        }*@
+
+
+
+
+    <!--</table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12 ">-->
+    @*<table id="TablePrint" class="table table-bordered">*@
+    <!--<table id="TablePrint" class="table table-bordered" border="1" style="border-color:black !important">
+        <thead>
+            <tr style="background-color:#37474F;color:#FFFFFF">
+                <th>
+                    <b>Category</b>
+                </th>
+                <th>
+                    <b>Measures</b>
+                </th>
+                <th>
+                    <b>Metrics</b>
+                </th>
+                <th>
+                    <b>Comments</b>
+                </th>
+                <th>
+                    <b>Score</b>
+                </th>
+            </tr>
+        </thead>
+        <tbody id="upcomingMeetings"></tbody>-->
+    @*<tbody>
+
+            @foreach (var items in Model.Where(p => p.IsDefault == false).Select(p => p.SectionName).Distinct())
+            {
+                <tr>
+                    <td colspan="4">@items</td>
+                </tr>
+                foreach (var ite in Model.Where(p => p.IsDefault == false && p.SectionName == items).OrderBy(p => p.QSeq).Select(P => P.ParamTitle).Distinct())
+                {
+                    <tr>
+                        <td></td>
+                        <td>@ite</td>
+                        <td>
+                            @Html.DropDownList("SelectedMovieType", Model.Where(p => p.IsDefault == false && p.SectionName == items && p.ParamTitle == ite).Select(p => new SelectListItem { Value = p.scQLOVID.ToString(), Text = p.scQuestionValues }))
+                        </td>
+                        <td><input type="text" class="form-control" value="" placeholder="Enter Values" /> </td>
+                        <td></td>
+                    </tr>
+                }
+            }
+        </tbody>*@
+    <!--</table>
+        </div>
+    </div>-->
+    @*<div class="row">
+            <div class="col-lg-12 col-md-12 ">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Draft" class="btn btn-primary" />
+            </div>
+        </div>*@
+    <script src="https://code.jquery.com/jquery-3.5.1.js" type="text/javascript"></script>
+    <script src="~/Scripts/ScoreCard/scorecarddetails.js?ver<%=DateTime.Now.Ticks.ToString()%>" type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js" type="text/javascript"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            // alert("sd");
+            //$("#ddlCompany").val(1);
+            //$('#ddlCompany').val(1).attr("selected", "selected");
+           
+        });
+
+        $("#btnGetAudit").click(function () {
+            debugger;
+            var scname = $("#ddlScoreCard option:selected").text();
+            // GetAudit(scname);
+            var scorecardText = scname;
+            $("#div1").load("/Audit/ScoreCardbyidDetailsPartial", { ScoreCardNameTxt: scorecardText });
+            $("#btnGetAudit").prop("disabled", true);
+
+        });
+
+
+        $("#ddlScoreCard").change(function () {
+            $("#btnGetAudit").prop("disabled", false);
+            // debugger
+            //var scorecardText = $('option:selected', this).text();
+            //$("#div1").load("/Audit/ScoreCardbyidDetailsPartial", { ScoreCardNameTxt: scorecardText });
+        });
+        $(document).on('change', '.ddlsc', function () {
+            debugger
+            var scorevalue = $('option:selected', this).val();
+            $("#txtS_" + $(this).attr("data-id")).val(scorevalue);
+            $("#txtWQ_" + $(this).attr("data-id")).val(scorevalue);
+            
+            var secId = $(this).attr("data-secid");
+            var swgt = $("#txtSW_" + secId).val();
+            var qwtg;
+            //alert("secId :" + secId);
+            var sumSectionVal = 0;
+            console.log(secId);
+            $("#sec_" + secId).text('');
+            $('.sec_' + secId).each(function () {
+                if ($(this).val() != "") {
+                    qwtg = $("#txtSQ_" + $(this).attr("data-id")).val();
+                    $("#txtWQ_" + $(this).attr("data-id")).val((parseFloat(swgt) * parseFloat(qwtg)) / 100 * parseFloat($(this).val()) / 100);
+                    
+                   
+                   // alert(qwtg)
+                  sumSectionVal = parseFloat(sumSectionVal) + (parseFloat(swgt) * parseFloat(qwtg)) / 100 * parseFloat($(this).val()) / 100;
+                }
+
+            });
+            $("#sec_" + secId).text(sumSectionVal);
+
+            $("#txtGSC").val(0);
+            var ttlScore = 0;
+            
+            $('[class~="sectionIdcls"]').each(function () {
+                if ($(this).val() != "") {
+                    ttlScore = parseInt(ttlScore) + parseInt($(this).val());
+                }
+            });
+            $("#txtGSC").val(ttlScore);
+
+            console.log(sumSectionVal);
+          
+            
+            //debugger;
+            //var scaval = $("#txtGSC").val();
+            //$("#txtGSC").val(sumSectionVal + parseInt(scaval));
+         
+          });
+
+        function checkvalidation() {
+            var reqresult = true;
+            $('.isreq').each(function () {
+                if ($(this).val() == "") {
+                    reqresult = false;
+                }
+            });
+            return reqresult;
+        }
+      
+    </script>
